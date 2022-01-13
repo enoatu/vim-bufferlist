@@ -113,6 +113,8 @@ function! BufferList()
   setlocal nomodifiable
   setlocal nowrap
   setlocal nonumber
+  " disable list setting(trail etc.)
+  setlocal nolist
 
   " set up syntax highlighting
   if has("syntax")
