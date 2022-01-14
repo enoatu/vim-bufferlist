@@ -6,7 +6,7 @@ This Repository was forked from [roblillack/vim-bufferlist](https://github.com/r
 Additional features
 ============
 1. **Sort File**
-  - This buffer plugin sorts the files in the buffer by file name.
+  - This buffer plugin sorts the files in the buffer by file or directory name.
 You will be able to find the desired file easily.
 2. **Implove Style**
   - If you have written "set list" to vimrc, you will be annoyed by the style in the buffer.
