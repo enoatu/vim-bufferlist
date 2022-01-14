@@ -12,6 +12,9 @@ You will be able to find the desired file easily.
   - If you have written "set list" to vimrc, you will be annoyed by the style in the buffer.
 This solves this problem.
 
+Preview
+=======
+<img width="464" alt="スクリーンショット 2022-01-15 1 45 04" src="https://user-images.githubusercontent.com/30614453/149552790-a1c86d48-3b02-41aa-a1ee-28c92cbf40d8.png">
 
 License
 -------
