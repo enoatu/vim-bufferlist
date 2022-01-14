@@ -5,7 +5,7 @@ This Repository was forked from [roblillack/vim-bufferlist](https://github.com/r
 
 Additional features
 ============
-1. **Sort File**
+1. **Sort Buffer**
   - This buffer plugin sorts the files in the buffer by file or directory name.
 You will be able to find the desired file easily.
 2. **Implove Style**
