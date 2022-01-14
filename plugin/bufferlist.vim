@@ -55,12 +55,35 @@ function! BufferList()
   let l:bufnumbers = ''
   let l:width = g:BufferListWidth
 
-  " iterate through the buffers
+  let l:sortbuflist = []
   let l:i = 0 | while l:i <= l:bufcount | let l:i = l:i + 1
     let l:bufname = bufname(l:i)
+    call add(l:sortbuflist, l:bufname)
+  endwhile
+
+  call sort(l:sortbuflist)
+
+  "adjust empty
+  call remove(l:sortbuflist, 0)
+  call insert(l:sortbuflist, "", l:bufcount)
+
+  let l:sortbufaddress = []
+  let l:i = 0 | while l:i <= l:bufcount | let l:i = l:i + 1
+    let l:bufaddress = bufnr(l:sortbuflist[l:i - 1])
+    call add(l:sortbufaddress, l:bufaddress)
+  endwhile
+
+  "adjust empty
+  call remove(l:sortbufaddress, l:bufcount)
+  call insert(l:sortbufaddress, 0, l:bufcount)
+
+  " iterate through the buffers
+  let l:i = 0 | while l:i <= l:bufcount | let l:i = l:i + 1
+    let l:bufname = l:sortbuflist[l:i - 1]
+    let l:bufadr = l:sortbufaddress[l:i - 1]
     if strlen(l:bufname)
-      \&& getbufvar(l:i, '&modifiable')
-      \&& getbufvar(l:i, '&buflisted')
+      \&& getbufvar(l:bufadr, '&modifiable')
+      \&& getbufvar(l:bufadr, '&buflisted')
 
       " adapt width and/or buffer name
       if l:width < (strlen(l:bufname) + 5)
@@ -72,18 +95,18 @@ function! BufferList()
         endif
       endif
 
-      if bufwinnr(l:i) != -1
+      if bufwinnr(l:bufadr) != -1
         let l:bufname = l:bufname . '*'
       endif
-      if getbufvar(l:i, '&modified')
+      if getbufvar(l:bufadr, '&modified')
         let l:bufname = l:bufname . '+'
       endif
       " count displayed buffers
       let l:displayedbufs = l:displayedbufs + 1
       " remember buffer numbers
-      let l:bufnumbers = l:bufnumbers . l:i . ':'
+      let l:bufnumbers = l:bufnumbers . l:bufadr . ':'
       " remember the buffer that was active BEFORE showing the list
-      if l:activebuf == l:i
+      if l:activebuf == l:bufadr
         let l:activebufline = l:displayedbufs
       endif
       " fill the name with spaces --> gives a nice selection bar
