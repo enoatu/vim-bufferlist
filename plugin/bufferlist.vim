@@ -1,4 +1,5 @@
-"=== VIM BUFFER LIST SCRIPT 1.3 ================================================
+"
+"== VIM BUFFER LIST SCRIPT 1.3 ================================================
 "= Copyright(c) 2005, Robert Lillack <rob@lillack.de>                          =
 "= Redistribution in any form with or without modification permitted.          =
 "=                                                                             =
@@ -261,7 +262,8 @@ endfunction
 " loads the selected buffer
 function! LoadBuffer()
   " get the selected buffer
-  let l:str = BufferListGetSelectedBuffer()
+  let l:result = BufferListGetSelectedBuffer()
+  let l:str = l:result['str']
   " kill the buffer list
   bwipeout
   " ...and switch to the buffer number
@@ -271,28 +273,33 @@ endfunction
 " deletes the selected buffer
 function! BufferListDeleteBuffer()
   " get the selected buffer
-  let l:str = BufferListGetSelectedBuffer()
+  let l:result = BufferListGetSelectedBuffer()
+  let l:str = l:result['str']
+  let l:line = l:result['line']
   " kill the buffer list
   bwipeout
   " delete the selected buffer
   exec ":bdelete " . l:str
   " and reopen the list
   call BufferList()
+  call BufferListMove(l:line)
 endfunction
 
 function! BufferListGetSelectedBuffer()
   " this is our string containing the buffer numbers in
   " the order of the list (separated by ':')
   let l:str = b:bufnumbers
+  let l:line = 1
 
   " remove all numbers BEFORE the one we want
   let l:i = 1 | while l:i < line(".") | let l:i = l:i + 1
     let l:str = strpart(l:str, stridx(l:str, ':') + 1)
+    let l:line = l:line + 1
   endwhile
 
   " and everything AFTER
   let l:str = strpart(l:str, 0, stridx(l:str, ':'))
 
-  return l:str
+  return {'str': l:str, 'line': l:line }
 endfunction
 
