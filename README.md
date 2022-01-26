@@ -8,10 +8,10 @@ Additional features
 1. **Sort Buffer**
   - This buffer plugin sorts the files in the buffer by file or directory name.
 You will be able to find the desired file easily.
-2. **Implove Style**
+2. **Improve Style**
   - If you have written "set list" to vimrc, you will be annoyed by the style in the buffer.
 This solves this problem.
-3. Speedy deletion
+3. **Speedy deletion**
   - The cursor position after deleting the buffer has been moved to a place where it can be easily deleted again.
 
 Preview
