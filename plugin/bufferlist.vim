@@ -40,6 +40,33 @@ if !exists('g:BufferListMaxWidth')
   let g:BufferListMaxWidth = 40
 endif
 
+function GenerateHexColor(seed)
+  let hex = '789ABCDE'
+  let color = ''
+  let number = a:seed
+  for i in range(6)
+	let color .= hex[number % 8]
+	let number /= 16
+  endfor
+  return color
+endfunction
+
+function! GenerateRandomColor(name)
+  let l:seed = GenerateSeedIDFromString(a:name)
+  echo l:seed
+  return '#' . GenerateHexColor(l:seed)
+endfunction
+
+function GenerateSeedIDFromString(name)
+  let l:id = sha256(a:name)
+  let l:number = filter(split(l:id, '\zs'), { idx, char -> char >= '0' && char <= '9' })
+  return join(l:number, "")[0:9]
+endfunction
+
+function! EscapteSlash(name)
+  return substitute(a:name, '/', '\\/', 'g')
+endfunction
+
 " toggled the buffer list on/off
 function! BufferList()
   " if we get called and the list is open --> close it
@@ -143,10 +170,14 @@ function! BufferList()
   " set up syntax highlighting
   if has("syntax")
     syn clear
-    syn match BufferNormal /  .*/
-    syn match BufferSelected /> .*/hs=s+1
-    hi def BufferNormal ctermfg=black ctermbg=white
-    hi def BufferSelected ctermfg=white ctermbg=black
+    for i in range(len(l:sortbuflist))
+      if l:sortbuflist[i] == ""
+        continue
+      endif
+      let l:hash = GenerateRandomColor(l:sortbuflist[i])
+      execute 'syn match bufferlist' . i . ' /' . EscapteSlash(l:sortbuflist[i]) . '/'
+      execute 'hi def bufferlist' . i . ' ctermfg=168 ctermbg=16 guifg=' . l:hash . ' guibg=#282c34'
+    endfor
   endif
 
   setlocal modifiable
