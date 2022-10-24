@@ -53,7 +53,6 @@ endfunction
 
 function! GenerateRandomColor(name)
   let l:seed = GenerateSeedIDFromString(a:name)
-  echo l:seed
   return '#' . GenerateHexColor(l:seed)
 endfunction
 
